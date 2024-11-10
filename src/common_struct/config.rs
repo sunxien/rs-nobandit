@@ -23,7 +23,6 @@ pub struct Config {
 
     ///
     pub max_stay_time: u8,
-
 }
 
 impl Display for Config {
@@ -36,7 +35,5 @@ impl Display for Config {
 pub mod config_tests {
 
     #[test]
-    pub fn test_display_config(){
-
-    }
+    pub fn test_display_config() {}
 }

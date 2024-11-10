@@ -15,7 +15,11 @@ impl AppError {
 
 impl Display for AppError {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
-        write!(f, "Error Code: {}\nError Message: {}", self.code, self.message)
+        write!(
+            f,
+            "Error Code: {}\nError Message: {}",
+            self.code, self.message
+        )
     }
 }
 

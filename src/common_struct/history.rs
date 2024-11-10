@@ -1,9 +1,7 @@
-
 ///
 #[derive(Debug)]
 #[allow(dead_code, unused)]
 pub struct History {
-
     // primary key
     pub id: u64,
 

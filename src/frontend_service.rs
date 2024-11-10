@@ -1,1 +1,2 @@
-pub mod frontend_service;
+pub mod camera_operation;
+pub mod ocrs_recognizer;

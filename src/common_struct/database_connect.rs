@@ -1,8 +1,8 @@
 use std::fmt::{Display, Formatter};
 use std::io::Write;
 
-use md5::{Digest, Md5};
 use md5::digest::DynDigest;
+use md5::{Digest, Md5};
 use mysql::{Pool, PooledConn};
 
 /// e.g:
@@ -22,11 +22,15 @@ pub struct DatabaseConnect {
 ///
 impl Display for DatabaseConnect {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
-        write!(f, "mysql://{}:{}@{}:{}/{}", self.user,
-               md5_str(self.password.as_str()),
-               self.hostname,
-               self.port,
-               self.schema)
+        write!(
+            f,
+            "mysql://{}:{}@{}:{}/{}",
+            self.user,
+            md5_str(self.password.as_str()),
+            self.hostname,
+            self.port,
+            self.schema
+        )
     }
 }
 
@@ -45,12 +49,13 @@ impl DatabaseConnect {
 
     ///
     pub fn format_url(&self) -> String {
-        format!("mysql://{user}:{password}@{hostname}:{port}/{schema}",
-                user = self.user,
-                password = self.password.as_str(),
-                hostname = self.hostname,
-                port = self.port,
-                schema = self.schema
+        format!(
+            "mysql://{user}:{password}@{hostname}:{port}/{schema}",
+            user = self.user,
+            password = self.password.as_str(),
+            hostname = self.hostname,
+            port = self.port,
+            schema = self.schema
         )
     }
 
@@ -83,10 +88,10 @@ pub mod database_connect {
     use md5::{Digest, Md5};
     use mysql::prelude::Queryable;
 
-    use crate::common_struct::database_connect::{DatabaseConnect, md5_str};
+    use crate::common_struct::database_connect::{md5_str, DatabaseConnect};
 
     #[test]
-    pub fn test_new_DatabaseConnect() {
+    pub fn test_new_database_connect() {
         let database_connect = DatabaseConnect {
             user: String::from("root"),
             password: String::from("root"),
@@ -98,22 +103,26 @@ pub mod database_connect {
     }
 
     ///
-    const TEST_SQL: &str =  r#"
+    const TEST_SQL: &str = r#"
         select 1 from dual
     "#;
     #[test]
-    pub fn test_new_PooledConnection() {
+    pub fn test_new_pooled_connection() {
         let database_connect = DatabaseConnect::new(
             String::from("root"),
             String::from("root"),
             String::from("localhost"),
             String::from("nobandit"),
         );
-        let mut conn = database_connect.new_connection(Duration::from_millis(50)).unwrap();
-        let r: Option<u8> = conn.query_first(TEST_SQL).expect("Query 'select 1 from dual failed'");
+        let mut conn = database_connect
+            .new_connection(Duration::from_millis(50))
+            .unwrap();
+        let r: Option<u8> = conn
+            .query_first(TEST_SQL)
+            .expect("Query 'select 1 from dual failed'");
         match r {
             Some(v) => println!("Result: {}", v),
-            None => println!("Result: None !!!")
+            None => println!("Result: None !!!"),
         }
     }
 

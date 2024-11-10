@@ -6,14 +6,22 @@ edition = "2021"
 [dependencies]
 md-5 = "0.10.6"
 chrono = "0.4.38"
-serde = { version = "1.0.214", features = ["derive"] }
-serde_json = "1.0.132"
 
-#sqlite = "0.36.1"
+sqlite = "0.36.1"
 mysql = "25.0.1"
 
-#ocrs = "0.9.0"
+serde = "1.0.214"
+serde_json = "1.0.132"
 
-#leptonica-sys = "0.4.8"
+walkdir = "2.5.0"
+
+# ocrs-0.9.0 conflict with mysql-25.0.1
+ocrs = "0.8.1"
+image = "0.25.5"
+rten = "0.13.1"
+
+# tesseract
 #tesseract = "0.15.1"
-#tesseract-plumbing = "0.11.0"
+
+[profile.test]
+opt-level=2 # If test 'xxx' has been running for over 60 seconds

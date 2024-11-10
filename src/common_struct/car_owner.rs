@@ -1,5 +1,5 @@
-use std::fmt::{Display, Formatter};
 use serde::{Deserialize, Serialize};
+use std::fmt::{Display, Formatter};
 
 #[derive(Debug, Serialize, Deserialize)]
 #[allow(dead_code, unused)]
@@ -12,12 +12,20 @@ pub struct CarOwner {
 }
 
 impl CarOwner {
-    pub fn new(id: u64,
-               owner: String,
-               phone: String,
-               address: String,
-               license_plate: String) -> Self {
-        CarOwner { id, owner, phone, address, license_plate }
+    pub fn new(
+        id: u64,
+        owner: String,
+        phone: String,
+        address: String,
+        license_plate: String,
+    ) -> Self {
+        CarOwner {
+            id,
+            owner,
+            phone,
+            address,
+            license_plate,
+        }
     }
 }
 

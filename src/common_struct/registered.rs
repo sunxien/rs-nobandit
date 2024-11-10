@@ -1,9 +1,7 @@
-
 ///
 #[derive(Debug)]
 #[allow(dead_code, unused)]
 pub struct Registered {
-
     // primary key
     pub id: u64,
 
@@ -18,5 +16,4 @@ pub struct Registered {
 
     // license plate of car
     pub license_plate: String,
-
 }

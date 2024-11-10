@@ -28,7 +28,6 @@ impl Display for CarDesc {
     }
 }
 
-
 #[cfg(test)]
 #[allow(dead_code, unused)]
 pub mod car_desc_tests {
