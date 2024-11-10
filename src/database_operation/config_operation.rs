@@ -22,12 +22,12 @@ pub fn load_config(conn: &mut PooledConn) -> Result<Config, AppError> {
         },
     ).map(|row| {
         row.map(|(id, garage_name, garage_type, free_time, parking_price, max_stay_time)| Config {
-            id: id,
-            garage_name: garage_name,
-            garage_type: garage_type,
-            free_time: free_time,
-            parking_price: parking_price,
-            max_stay_time: max_stay_time,
+            id,
+            garage_name,
+            garage_type,
+            free_time,
+            parking_price,
+            max_stay_time,
         })
     });
     if result.is_err() {

@@ -2,6 +2,41 @@ use mysql::{params, PooledConn, TxOpts};
 use mysql::prelude::Queryable;
 
 use crate::common_struct::app_error::AppError;
+use crate::common_struct::history::History;
+
+///
+const SELECT_HISTORY_SQL: &str = r#"
+    select
+     `id`,
+     `license_plate`,
+     `enter_time`,
+     `exit_time`,
+     `status` from history where `license_plate`=:license_plate
+"#;
+pub fn load_history(conn: &mut PooledConn, license_plate: &str) -> Result<History, AppError> {
+    // TODO Refactor to use `PreparedStatement`
+    let result = conn.exec_first(SELECT_HISTORY_SQL,
+                                 params! {
+            "license_plate" => license_plate
+        },
+    ).map(|row| {
+        row.map(|(id, license_plate, enter_time, exit_time, status)| History {
+            id,
+            license_plate,
+            enter_time,
+            exit_time,
+            status,
+        })
+    });
+    if result.is_err() {
+        return Result::Err(AppError::new(500, result.unwrap_err().to_string()));
+    }
+    match result.unwrap() {
+        Some(c) => Result::Ok(c),
+        None => return Result::Err(AppError::new(400, String::from("History not found")))
+    }
+}
+
 
 ///
 // const CHECK_SQL: &str = r#"
@@ -11,7 +46,6 @@ const ENTER_SQL: &str = r#"
     insert into `history` (`license_plate`) values (:license_plate);
 "#;
 pub fn enter(conn: &mut PooledConn, license_plate: &str) -> Result<u64, AppError> {
-    // 进场时，检查是否曾经有未支付的记录；否则不可进场；
     // TODO Refactor to use `PreparedStatement`
     let mut trx = conn.start_transaction(TxOpts::default()).unwrap();
     let executed = trx.exec_drop(ENTER_SQL,
@@ -58,7 +92,7 @@ const EXIT_SQL: &str = r#"
     update `history` set `exit_time`=current_timestamp,`status`=4
     where `license_plate`=:license_plate
 "#;
-pub fn exit(conn: &mut PooledConn, license_plate: String) {
+pub fn exit(conn: &mut PooledConn, license_plate: &str) {
     // TODO Refactor to use `PreparedStatement`
     // 防止：已支付，未出场；下次出场，检查超时未出场，从上次的出场时间重新计费；
 }

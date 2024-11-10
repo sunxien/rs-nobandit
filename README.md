@@ -1,5 +1,19 @@
-# 使用 Rust 实现车辆进出车库管理系统
+# Rust 编写车辆进出车库程序
 
+## 系统库
+1. brew install pkg-config
+   2. export PKG_CONFIG_PATH=/usr/local/Cellar/pkg-config/0.29.2_3
+2. brew install leptonica
+
+## 依赖库
+1. SQLite Library https://rustwiki.org/zh-CN/rust-cookbook/database/sqlite.html
+2. OCR Library 
+3. Camera Library
+4. 
+
+## 系统逻辑
+
+### 进场
 1. 打开摄像头，拍照，留存照片
 
 2. 使用 OCR 识别照片
@@ -10,6 +24,7 @@
     - 3.1 私有车库，车辆信息已登记，开闸并记录进场时间；否则拒绝；
     - 3.2 公共车库，开闸，记录进场时间；
 
+## 出场
 4. 打开摄像头，拍照，留存照片
 
 5. 使用 OCR 识别照片
